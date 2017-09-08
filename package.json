@@ -1,0 +1,19 @@
+{
+  "name": "shipt",
+  "version": "1.0.0",
+  "description": "An application built with the purposes of interfacing with the GitHub API to get information about users.",
+  "main": "server.js",
+  "scripts": {
+    "test": "test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gtplesko/shipt-ghtest.git"
+  },
+  "author": "Gavin Plesko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gtplesko/shipt-ghtest/issues"
+  },
+  "homepage": "https://github.com/gtplesko/shipt-ghtest#readme"
+}
