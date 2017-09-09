@@ -1,11 +1,7 @@
 <div class="response">
-  <label>User: </label>
-  <%= username %>
+  <a href="<%= html_url %>">
+  <h2><%= login %></h2>
+  <img src="<%= avatar_url %>" width="100px;"height="auto"/></a>
   <label>Followers: </label>
-  <%= followCount %>
-  <ul>
-    <% users.forEach(function(user) { %>
-      <li title="<%= user.username %>"><%= user.avatar %></li>
-    <% }); %>
-  </ul>
-</div>
+  <%= followers %>
+  </div>

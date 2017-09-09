@@ -1,78 +1,47 @@
 var express = require('express');
 var app = express();
+//require('./users.js')();
+var request = require('request');
 
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
 var port = process.env.PORT || 8000;
 
-// set the view engine to ejs
 app.set('view engine', 'ejs');
 
-// make express look in the public directory for assets (css/js/img)
+// make express look in the public directory for assets
 app.use(express.static(__dirname + '/public'));
 
-// set the home page route
 app.get('/', function(req, res) {
-
-
-
-    //test data
-     //
-    //  var username = "gavin";
-    //  var followCount = 20;
-    //  var users = [{username: "billy", avatar: "hanko"},
-    //      {username: "Cheffrey", avatar: "Mondo"}];
-    // ejs render automatically looks in the views folder
-    res.render('index', {
-      // username: username,
-      // followCount: followCount,
-      // users: users
-    });
-});
-app.get('/user/:username', takeUser);
-function takeUser(req, res){
-  console.log("Words");
-  var user = req.params['username'];
-  res.send(getUser(user));
-  res.send(getFollowers(user));
   res.render('index');
-}
+});
+
+app.get('/user/:username', function (req, res){
+  var user = req.params['username'];
+  var options = {
+      url: 'https://api.github.com/users/' + user,
+      method: 'GET',
+      headers: {
+          'User-Agent': 'shipt-test'
+      }
+  };
+  var options2 = {
+      url: 'https://api.github.com/users/' + user + '/followers',
+      method: 'GET',
+      headers: {
+          'User-Agent': 'shipt-test'
+      }
+  };
+  function callback(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var info = JSON.parse(body);
+      res.render('index', info);
+    }
+  }
+  request(options, callback);
+});
 
 
 app.listen(port, function() {
-    console.log('Our app is running on http://localhost:' + port);
+    console.log('Running on http://localhost:' + port);
 });
-
-const request = require('request');
-function getUser(username){
-  const options = {
-      url: 'https://api.github.com/users/' + username,
-      method: 'GET',
-      headers: {
-          'Accept': 'application/json',
-          'Accept-Charset': 'utf-8',
-          'User-Agent': 'shipt-test'
-      }
-  };
-
-  request(options, function(err, res, body) {
-    return body;
-  });
-}
-
-function getFollowers(username){
-  var thisUser = username;
-  const options = {
-      url: 'https://api.github.com/users/' + thisUser + '/followers',
-      method: 'GET',
-      headers: {
-          'Accept': 'application/json',
-          'Accept-Charset': 'utf-8',
-          'User-Agent': 'shipt-test'
-      }
-  };
-
-  request(options, function(err, res, body) {
-      return body;
-    });
-}
