@@ -1,21 +1,21 @@
 var express = require('express');
 var app = express();
-//require('./users.js')();
 var request = require('request');
 
 // set the port of our application
-// process.env.PORT lets the port be set by Heroku
 var port = process.env.PORT || 8000;
 
 app.set('view engine', 'ejs');
 
-// make express look in the public directory for assets
+//Express will use the /public directory for css, js and images
 app.use(express.static(__dirname + '/public'));
 
+//homepage
 app.get('/', function(req, res) {
   res.render('index');
 });
 
+//rest API using a lookup will automatically change the page allowing users to link to certain profiles
 app.get('/user/:username', function (req, res){
   var user = req.params['username'];
   var options = {
@@ -25,6 +25,7 @@ app.get('/user/:username', function (req, res){
           'User-Agent': 'shipt-test'
       }
   };
+  //TODO:: use options2 to populate followers list
   var options2 = {
       url: 'https://api.github.com/users/' + user + '/followers',
       method: 'GET',
