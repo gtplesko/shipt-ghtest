@@ -15,31 +15,37 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
+app.get('/user', function(req, res) {
+  res.render('index');
+});
+
 //rest API using a lookup will automatically change the page allowing users to link to certain profiles
 app.get('/user/:username', function (req, res){
   var user = req.params['username'];
-  var options = {
-      url: 'https://api.github.com/users/' + user,
-      method: 'GET',
-      headers: {
-          'User-Agent': 'shipt-test'
+  if(user){
+    var options = {
+        url: 'https://api.github.com/users/' + user,
+        method: 'GET',
+        headers: {
+            'User-Agent': 'shipt-test'
+        }
+    };
+    //TODO:: use options2 to populate followers list
+    var options2 = {
+        url: 'https://api.github.com/users/' + user + '/followers',
+        method: 'GET',
+        headers: {
+            'User-Agent': 'shipt-test'
+        }
+    };
+    function callback(error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var info = JSON.parse(body);
+        res.render('user', info);
       }
-  };
-  //TODO:: use options2 to populate followers list
-  var options2 = {
-      url: 'https://api.github.com/users/' + user + '/followers',
-      method: 'GET',
-      headers: {
-          'User-Agent': 'shipt-test'
-      }
-  };
-  function callback(error, response, body) {
-    if (!error && response.statusCode == 200) {
-      var info = JSON.parse(body);
-      res.render('index', info);
     }
+    request(options, callback);
   }
-  request(options, callback);
 });
 
 
