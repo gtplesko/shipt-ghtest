@@ -1,5 +1,7 @@
 ## Github user lookup
 This is an application that uses api.github.com to allow user lookups which displays information on their accounts.
+https://shipt-takehome.herokuapp.com
+Using https://github.com/gtplesko/shipt-ghtest as the working repository for the application (some minor differences between here and there)
 
 
 ## Design choices
