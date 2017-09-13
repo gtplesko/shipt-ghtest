@@ -38,11 +38,11 @@ app.get('/user/:username', function (req, res, next){
           res.render('index');//This should never happen
         }
       }else{
-        fs.appendFile('log.txt', (' ----- \n Username input: ' + user + '\n Options: '  + JSON.stringify(options) + '\n Body: '  + body + '\n Error: '  + error + '\n Response: ' + JSON.stringify(response) + '\n ----- \n'), function (err) {
+      /*  fs.appendFile('log.txt', (' ----- \n Username input: ' + user + '\n Options: '  + JSON.stringify(options) + '\n Body: '  + body + '\n Error: '  + error + '\n Response: ' + JSON.stringify(response) + '\n ----- \n'), function (err) {
           if (err){
             throw err;
           };
-        });
+        });*/
         res.render('404');//catches errors
       }
     }
