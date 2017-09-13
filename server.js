@@ -2,7 +2,6 @@ var express = require('express');
 var app = express();
 var request = require('request');
 var fs = require('fs');
-// set the port of our application
 var port = process.env.PORT || 8000;
 
 app.set('view engine', 'ejs');
@@ -14,9 +13,9 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res) {
   res.render('index');
 });
-
+//no user input
 app.get('/user', function(req, res) {
-  res.render('index');
+  res.render('404');
 });
 
 //rest API using a lookup will automatically change the page allowing users to link to certain profiles
@@ -41,7 +40,7 @@ app.get('/user/:username', function (req, res, next){
       }else{
         fs.appendFile('log.txt', (' ----- \n Username input: ' + user + '\n Options: '  + JSON.stringify(options) + '\n Body: '  + body + '\n Error: '  + error + '\n Response: ' + JSON.stringify(response) + '\n ----- \n'), function (err) {
           if (err){
-            throw err
+            throw err;
           };
         });
         res.render('404');//catches errors
