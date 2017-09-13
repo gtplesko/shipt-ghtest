@@ -1,0 +1,13 @@
+<html>
+  <head>
+    <%include block/Header.ejs %>
+  </head>
+  <body>
+    <div class="container">
+      <%include block/Search.ejs%>
+      <div class="alert alert-danger" role="alert">
+        <strong>Error:</strong> user was not found or you have surpassed the limit to Github's api for this hour.
+      </div>
+    </div>
+  </body>
+</html>

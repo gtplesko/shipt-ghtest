@@ -20,7 +20,7 @@ app.get('/user', function(req, res) {
 });
 
 //rest API using a lookup will automatically change the page allowing users to link to certain profiles
-app.get('/user/:username', function (req, res){
+app.get('/user/:username', function (req, res, next){
   var user = req.params['username'];
   if(user){
     var options = {
@@ -30,22 +30,22 @@ app.get('/user/:username', function (req, res){
             'User-Agent': 'shipt-test'
         }
     };
-    //TODO:: use options2 to populate followers list
-    var options2 = {
-        url: 'https://api.github.com/users/' + user + '/followers',
-        method: 'GET',
-        headers: {
-            'User-Agent': 'shipt-test'
-        }
-    };
     function callback(error, response, body) {
       if (!error && response.statusCode == 200) {
         var info = JSON.parse(body);
-        res.render('user', info);
+        if(info.message==undefined){
+          res.render('user', info);
+        }else{
+            res.render('index');
+        }
+      }else{
+          res.render('404');
       }
     }
+
     request(options, callback);
   }
+
 });
 
 
