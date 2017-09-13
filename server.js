@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var request = require('request');
-
+var fs = require('fs');
 // set the port of our application
 var port = process.env.PORT || 8000;
 
@@ -33,13 +33,18 @@ app.get('/user/:username', function (req, res, next){
     function callback(error, response, body) {
       if (!error && response.statusCode == 200) {
         var info = JSON.parse(body);
-        if(info.message==undefined){
+        if(info.message==undefined){//messages only show up if github was upset about something.
           res.render('user', info);
         }else{
-            res.render('index');
+          res.render('index');//This should never happen
         }
       }else{
-          res.render('404');
+        fs.appendFile('log.txt', (' ----- \n Username input: ' + user + '\n Options: '  + JSON.stringify(options) + '\n Body: '  + body + '\n Error: '  + error + '\n Response: ' + JSON.stringify(response) + '\n ----- \n'), function (err) {
+          if (err){
+            throw err
+          };
+        });
+        res.render('404');//catches errors
       }
     }
 
