@@ -13,10 +13,6 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res) {
   res.render('index');
 });
-//no user input
-app.get('/user', function(req, res) {
-  res.render('404');
-});
 
 //rest API using a lookup will automatically change the page allowing users to link to certain profiles
 app.get('/user/:username', function (req, res, next){
@@ -51,7 +47,10 @@ app.get('/user/:username', function (req, res, next){
   }
 
 });
-
+//no user input
+app.get('*', function(req, res) {
+  res.render('404');
+});
 
 app.listen(port, function() {
     console.log('Running on http://localhost:' + port);
